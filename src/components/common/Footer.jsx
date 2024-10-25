@@ -19,7 +19,7 @@ export default function Footer() {
                 </Link>
                 <p className="text-white mb-0">
                   Build a professional website for your hotel business and grab
-                  the attention of new visitors upon your site’s launch.
+                  the attention of new visitors upon your site’s launch. 
                 </p>
               </div>
             </div>
