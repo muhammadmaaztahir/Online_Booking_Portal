@@ -1,8 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CommonHeading from "../common/CommonHeading";
-import { facility, roomItems } from "../data/Data";
+import { facility } from "../data/Data"; // Leave facility as is
+import { BASE_URL } from '../../config';
+import axios from 'axios';
 
 export default function Rooms() {
+  const [roomItems, setRoomItems] = useState([]); // State to hold room items
+
+  const fetchTours = async () => {
+    try {
+      const response = await axios.get(`${BASE_URL}/tours`, { withCredentials: true });
+      console.log("API response data:", response.data);
+      setRoomItems(response.data); // Set the room items state with the API data
+    } catch (error) {
+      console.error("Error fetching tours:", error);
+    }
+  };
+
+  // Use useEffect to trigger fetchTours on component load
+  useEffect(() => {
+    fetchTours();
+  }, []);
+
   return (
     <>
       <div className="container-xxl py-5">
@@ -14,7 +33,7 @@ export default function Rooms() {
           />
           <div className="row g-4">
             {roomItems.map((item, key) => (
-              <div className="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+              <div className="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s" key={key}>
                 <div className="room-item shadow rounded overflow-hidden">
                   <div className="position-relative">
                     <img className="img-fluid" src={item.img} alt="img" />
@@ -28,10 +47,10 @@ export default function Rooms() {
                       <div className="ps-2">{item.star}</div>
                     </div>
                     <div className="d-flex mb-3">
-                      {facility.map((item, index) => (
-                        <small className="border-end me-3 pe-3">
-                          {item.icon}
-                          {item.quantity} {item.facility}
+                      {facility.map((facilityItem, index) => (
+                        <small key={index} className="border-end me-3 pe-3">
+                          {facilityItem.icon}
+                          {facilityItem.quantity} {facilityItem.facility}
                         </small>
                       ))}
                     </div>

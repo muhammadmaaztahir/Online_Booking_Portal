@@ -7,6 +7,9 @@ import PageNotFound from "./PageNotFound";
 import Room from "./RoomPage";
 import Services from "./ServicesPage";
 import Home from "../components/home/Home";
+import Login from "../pages/Login"
+import Signup from "../pages/Signup"
+import ForgotPassword from "../pages/ForgotPassword"
 export {
   Home,
   Booking,
@@ -17,4 +20,7 @@ export {
   PageNotFound,
   Room,
   Services,
+  Login,
+  Signup,
+  ForgotPassword
 };
