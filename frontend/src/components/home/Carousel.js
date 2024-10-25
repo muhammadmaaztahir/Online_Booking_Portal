@@ -1,3 +1,4 @@
+
 import React, { useRef } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -25,15 +26,14 @@ export default function Carousel() {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
+    autoplay: true,         // Enables autoplay
+    autoplaySpeed: 3000,    // Sets the speed (3 seconds per slide)
   };
+
   return (
     <>
       <div className="container-fluid p-0 mb-5">
-        <div
-          id="header-carousel"
-          className="carousel slide"
-          data-bs-ride="carousel"
-        >
+        <div id="header-carousel" className="carousel slide" data-bs-ride="carousel">
           <div className="carousel-inner">
             <Slider ref={sliderRef} {...settings}>
               {carouselData.map((val, index) => (
@@ -70,10 +70,7 @@ export default function Carousel() {
             type="button"
             onClick={previous}
           >
-            <span
-              className="carousel-control-prev-icon"
-              aria-hidden="true"
-            ></span>
+            <span className="carousel-control-prev-icon" aria-hidden="true"></span>
             <span className="visually-hidden">Previous</span>
           </button>
           <button
@@ -81,10 +78,7 @@ export default function Carousel() {
             type="button"
             onClick={next}
           >
-            <span
-              className="carousel-control-next-icon"
-              aria-hidden="true"
-            ></span>
+            <span className="carousel-control-next-icon" aria-hidden="true"></span>
             <span className="visually-hidden">Next</span>
           </button>
         </div>

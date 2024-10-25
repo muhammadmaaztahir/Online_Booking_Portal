@@ -1,8 +1,40 @@
-import React from "react";
+
+import React, { useState, useEffect } from "react";
 import Heading from "../common/Heading";
 import { about } from "../data/Data";
+import { useInView } from "react-intersection-observer";
 
 export default function About() {
+  // State for counting
+  const [counts, setCounts] = useState([0, 0, 0]);
+
+  // Set up the intersection observer for the counters
+  const { ref: counterRef, inView: countersInView } = useInView({ threshold: 0.1 });
+
+  useEffect(() => {
+    if (countersInView) {
+      const counters = [...counts];
+      const interval = setInterval(() => {
+        let done = true;
+        for (let i = 0; i < counters.length; i++) {
+          if (counters[i] < parseInt(about[i].count)) {
+            counters[i] += Math.ceil(parseInt(about[i].count) / 20); // Adjust this value to control speed
+            done = false;
+          }
+        }
+        setCounts([...counters]);
+        if (done) clearInterval(interval);
+      }, 100); // Moderate interval time
+      return () => clearInterval(interval);
+    }
+  }, [countersInView, counts]);
+
+  // Image visibility state
+  const { ref: imgRef1, inView: imgInView1 } = useInView({ threshold: 0.1 });
+  const { ref: imgRef2, inView: imgInView2 } = useInView({ threshold: 0.1 });
+  const { ref: imgRef3, inView: imgInView3 } = useInView({ threshold: 0.1 });
+  const { ref: imgRef4, inView: imgInView4 } = useInView({ threshold: 0.1 });
+
   return (
     <>
       <div className="container-xxl py-5">
@@ -22,13 +54,13 @@ export default function About() {
                 sed stet lorem sit clita duo justo magna dolore erat amet
               </p>
               <div className="row g-3 pb-4">
-                {about.map((item, key) => (
-                  <div className="col-sm-4 wow fadeIn" data-wow-delay="0.1s">
+                {about.map((item, index) => (
+                  <div className="col-sm-4" key={index} ref={counterRef}>
                     <div className="border rounded p-1">
                       <div className="border rounded text-center p-4">
                         {item.icon}
                         <h2 className="mb-1" data-toggle="counter-up">
-                          {item.count}
+                          {countersInView ? counts[index] : 0}
                         </h2>
                         <p className="mb-0">{item.text}</p>
                       </div>
@@ -42,33 +74,33 @@ export default function About() {
             </div>
             <div className="col-lg-6">
               <div className="row g-3">
-                <div className="col-6 text-end">
+                <div className="col-6 text-end" ref={imgRef1}>
                   <img
-                    className="img-fluid rounded w-75 wow zoomIn"
-                    data-wow-delay="0.1s"
+                    className={`img-fluid rounded w-75 transition-all duration-700 ${imgInView1 ? "animate__animated animate__fadeInLeft" : "opacity-0"}`}
                     src="/assets/img/about-1.jpg"
                     style={{ marginTop: "25%" }}
+                    alt="About Us Image 1"
                   />
                 </div>
-                <div className="col-6 text-start">
+                <div className="col-6 text-start" ref={imgRef2}>
                   <img
-                    className="img-fluid rounded w-100 wow zoomIn"
-                    data-wow-delay="0.3s"
+                    className={`img-fluid rounded w-100 transition-all duration-700 ${imgInView2 ? "animate__animated animate__fadeInRight" : "opacity-0"}`}
                     src="/assets/img/about-2.jpg"
+                    alt="About Us Image 2"
                   />
                 </div>
-                <div className="col-6 text-end">
+                <div className="col-6 text-end" ref={imgRef3}>
                   <img
-                    className="img-fluid rounded w-50 wow zoomIn"
-                    data-wow-delay="0.5s"
+                    className={`img-fluid rounded w-50 transition-all duration-700 ${imgInView3 ? "animate__animated animate__fadeInUp" : "opacity-0"}`}
                     src="/assets/img/about-3.jpg"
+                    alt="About Us Image 3"
                   />
                 </div>
-                <div className="col-6 text-start">
+                <div className="col-6 text-start" ref={imgRef4}>
                   <img
-                    className="img-fluid rounded w-75 wow zoomIn"
-                    data-wow-delay="0.7s"
+                    className={`img-fluid rounded w-75 transition-all duration-700 ${imgInView4 ? "animate__animated animate__fadeInLeft" : "opacity-0"}`}
                     src="/assets/img/about-4.jpg"
+                    alt="About Us Image 4"
                   />
                 </div>
               </div>
